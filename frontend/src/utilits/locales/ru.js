@@ -1,5 +1,6 @@
 const translation = {
   translation: {
+    header: 'Hexlet Chat',
     authButton: {
       logIn: 'Войти',
       logOut: 'Выйти',
