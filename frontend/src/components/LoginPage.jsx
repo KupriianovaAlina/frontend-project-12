@@ -1,12 +1,11 @@
 import { Form, Container, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom'
-import { useFormik } from 'formik'
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useRef, useEffect, useContext } from 'react';
 import { AuthContext } from './AuthProvider';
-import { useTranslation } from 'react-i18next';
 
 const Login = () => {
   const inputRef = useRef();
@@ -14,8 +13,6 @@ const Login = () => {
   const location = useLocation();
   const auth = useContext(AuthContext);
   const { t } = useTranslation();
-
-
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -33,7 +30,7 @@ const Login = () => {
       try {
         const res = await axios.post('/api/v1/login', { username, password });
         auth.logIn(res.data.token, username);
-        if (location) { navigate(location.state.from.pathname) } else { navigate('/') }
+        if (location) { navigate(location.state.from.pathname); } else { navigate('/'); }
       } catch (err) {
         formik.setSubmitting(false);
         if (err.isAxiosError && err.response.status === 401) {
@@ -44,10 +41,10 @@ const Login = () => {
         }
         throw err;
       }
-    }
+    },
   });
 
-  return (<>
+  return (
     <Container fluid>
       <Row className="justify-content-center align-content-center mt-5 h-100">
         <div className="col-12 col-md-8 col-xxl-6">
@@ -56,10 +53,11 @@ const Login = () => {
               <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
                 <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
                   <img
-                    src={'https://media.2x2tv.ru/content/images/2022/05/ssssss.jpg'}
+                    src="https://media.2x2tv.ru/content/images/2022/05/ssssss.jpg"
                     className="rounded-circle"
-                    alt='avatar'
-                    width="200" height="200"
+                    alt="avatar"
+                    width="200"
+                    height="200"
                   />
                 </div>
                 <Form onSubmit={formik.handleSubmit}>
@@ -67,7 +65,9 @@ const Login = () => {
                   <Form.Group className="form-floating mb-3">
                     <Form.Control
                       isInvalid={formik.touched.username && formik.errors.username}
-                      id="username" name="username" type="text"
+                      id="username"
+                      name="username"
+                      type="text"
                       onChange={formik.handleChange}
                       value={formik.values.username}
                       onBlur={formik.handleBlur}
@@ -81,7 +81,9 @@ const Login = () => {
                   <Form.Group className="form-floating mb-3">
                     <Form.Control
                       isInvalid={formik.touched.password && formik.errors.password}
-                      id="password" name="password" type="password"
+                      id="password"
+                      name="password"
+                      type="password"
                       onChange={formik.handleChange}
                       value={formik.values.password}
                     />
@@ -106,8 +108,7 @@ const Login = () => {
         </div>
       </Row>
     </Container>
-  </>
-  )
+  );
 };
 
 export default Login;

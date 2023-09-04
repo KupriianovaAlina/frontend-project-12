@@ -22,8 +22,8 @@ const SignupPage = () => {
       username: yup
         .string()
         .required(t('validationErrors.required'))
-        .min(3, t('validationErrors.usernameLength'))
-        .max(20, t('validationErrors.usernameLength')),
+        .min(3, t('validationErrors.userLength'))
+        .max(20, t('validationErrors.userLength')),
       password: yup
         .string()
         .required(t('validationErrors.required'))

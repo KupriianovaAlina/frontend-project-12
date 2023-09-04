@@ -30,10 +30,11 @@ const App = () => (
             <Routes>
               <Route
                 path="/"
-                element={
+                element={(
                   <PrivateRoute>
                     <PrivatePage />
-                  </PrivateRoute>}
+                  </PrivateRoute>
+                )}
               />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
@@ -44,6 +45,6 @@ const App = () => (
       </Provider>
     </ErrorBoundary>
   </RollbarProvider>
-)
+);
 
 export default App;
