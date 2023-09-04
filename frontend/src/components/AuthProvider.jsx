@@ -1,22 +1,21 @@
-import { createContext } from 'react';
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 
 export const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
-  const getToken = () => localStorage.getItem("token");
+  const getToken = () => localStorage.getItem('token');
 
   const [isAuthtoraized, setAuth] = useState(Boolean(getToken()));
 
   const logIn = (token, username) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("username", username);
+    localStorage.setItem('token', token);
+    localStorage.setItem('username', username);
     setAuth(true);
   };
 
   const logOut = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
     setAuth(false);
   };
 

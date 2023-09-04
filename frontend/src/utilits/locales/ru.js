@@ -13,7 +13,7 @@ const translation = {
         message_few: '{{count}} сообщения',
         message_many: '{{count}} сообщений',
       },
-      newMessage: 'Новое сообщение'
+      newMessage: 'Новое сообщение',
     },
     validationErrors: {
       required: 'Обязательное поле',
@@ -28,7 +28,7 @@ const translation = {
       labels: {
         username: 'Ваш ник',
         password: 'Пароль',
-      }
+      },
     },
     signupForm: {
       header: 'Регистрация',
@@ -37,7 +37,7 @@ const translation = {
         password: 'Пароль',
         passwordConfirmation: 'Подтвердите пароль',
       },
-      button: 'Зарегистрироваться'
+      button: 'Зарегистрироваться',
     },
     footer: {
       question: 'Нет аккаунта?',
@@ -50,9 +50,9 @@ const translation = {
         channelRemoved: 'Канал удалён',
       },
       error: {
-        network: 'Проблемы с сетью'
-      }
-    }
+        network: 'Проблемы с сетью',
+      },
+    },
   },
 };
 
