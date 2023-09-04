@@ -1,19 +1,17 @@
 import axios from 'axios';
-import socket from '../utilits/socket.js';
-import getModal from '../modals/index'
+import { useTranslation } from 'react-i18next';
 import { useEffect, useRef, useState, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { AuthContext } from './AuthProvider';
 import { Container, Col, Stack, Row } from 'react-bootstrap';
+import socket from '../utilits/socket.js';
+import getModal from '../modals/index';
+import { AuthContext } from './AuthProvider';
 import { openModal } from '../slices/modalSlice';
-import { addChannel, addChannels, removeChannel, renameChannel } from '../slices/channelSlice';
-import { addMessage, addMessages } from '../slices/messageSlice';
-import { channelSelector } from '../slices/channelSlice';
-import { messageSelector } from '../slices/messageSlice';
+import { addChannel, addChannels, removeChannel, renameChannel, channelSelector } from '../slices/channelSlice';
+import { addMessage, addMessages, messageSelector } from '../slices/messageSlice';
 import ChatList from './ChatList.jsx';
 import MessageInput from './MessageInput.jsx';
 import Messages from './Messages.jsx';
-import { useTranslation } from 'react-i18next';
 
 const getChatData = (token) => axios.get('/api/v1/data', { headers: { Authorization: `Bearer ${token}` } })
 
