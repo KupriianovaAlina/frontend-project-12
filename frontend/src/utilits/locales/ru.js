@@ -17,7 +17,7 @@ const translation = {
     },
     validationErrors: {
       required: 'Обязательное поле',
-      userLength: 'От 3 до 30 символов',
+      userLength: 'От 3 до 20 символов',
       passwordLength: 'От 6 символов',
       noMatch: 'Пароли должны совпадать',
       submissionFailed: 'Неверные имя пользователя или пароль',
