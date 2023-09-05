@@ -2,12 +2,12 @@ const Messages = (props) => {
   const { currentMessages } = props;
 
   return (
-    <div className="px-5">
+    <div className="px-5" id="messages-box">
       {currentMessages.map((message, index) => (
-        <div className="text-break mb-2 px-5" key={index}>
+        <div className="mb-2" key={index}>
           <b>{message.username}</b>
           {': '}
-          <span>{message.body}</span>
+          {message.body}
         </div>
       ))}
     </div>
