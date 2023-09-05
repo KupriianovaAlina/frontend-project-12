@@ -1,8 +1,8 @@
-import { AuthContext } from '../components/AuthProvider'
 import { useContext } from 'react';
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import i18next from '../utilits/i18n';
+import { AuthContext } from './AuthProvider';
 
 const AuthButton = () => {
   const auth = useContext(AuthContext);

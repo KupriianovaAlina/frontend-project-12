@@ -92,7 +92,7 @@ const Login = () => {
                       {formik.errors.password}
                     </Form.Control.Feedback>
                   </Form.Group>
-                  <button variant="primary" type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('loginForm.header')}</button>
+                  <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('loginForm.header')}</button>
                 </Form>
               </div>
 
