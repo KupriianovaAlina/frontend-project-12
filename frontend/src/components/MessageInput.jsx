@@ -28,7 +28,7 @@ const MessageInput = (props) => {
       } finally {
         buttonRef.current.style.disabled = false;
       }
-    }
+    },
   });
 
   return (
@@ -40,9 +40,10 @@ const MessageInput = (props) => {
             type="text"
             onChange={formik.handleChange}
             value={formik.values.newMessage}
-            placeholder={i18next.t('privatePage.newMessage')}
             ref={inputRef}
             className="border-0 p-0 ps-2 form-control"
+            placeholder={i18next.t('privatePage.newMessage')}
+            aria-label="Новое сообщение"
           />
           <button type="submit" className="btn btn-group-vertical" ref={buttonRef}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
