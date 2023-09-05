@@ -19,9 +19,10 @@ const MessageInput = (props) => {
       buttonRef.current.style.disabled = true;
       try {
         const body = filter.clean(newMessage);
-        formik.values.newMessage = '';
-        inputRef.current.focus();
-        socket.emit('newMessage', { body, channelId: currentChat.id, username });
+        socket.emit('newMessage', { body, channelId: currentChat.id, username }, () => {
+          formik.values.newMessage = '';
+          inputRef.current.focus();
+        });
       } catch (err) {
         console.log(err);
         throw err;
