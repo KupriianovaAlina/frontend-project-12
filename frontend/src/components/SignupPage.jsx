@@ -30,7 +30,7 @@ const SignupPage = () => {
         .min(6, t('validationErrors.passwordLength')),
       passwordConfirmation: yup
         .string()
-        .required()
+        .required(t('validationErrors.required'))
         .oneOf([yup.ref('password'), null], t('validationErrors.noMatch')),
     }),
     onSubmit: async ({ username, password }) => {
