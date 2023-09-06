@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
 import { createContext, useState } from 'react';
 
 export const AuthContext = createContext({});
@@ -20,7 +21,12 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthtoraized, logIn, logOut, getToken }}>
+    <AuthContext.Provider value={
+      {
+        isAuthtoraized, logIn, logOut, getToken,
+      }
+    }
+    >
       {children}
     </AuthContext.Provider>
   );
