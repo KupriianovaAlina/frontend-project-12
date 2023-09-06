@@ -7,14 +7,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   Container, Col, Stack, Row,
 } from 'react-bootstrap';
-import socket from '../utilits/socket.js';
 import getModal from '../modals/index';
 import { AuthContext } from './AuthProvider';
 import { openModal } from '../slices/modalSlice';
 import {
-  addChannel, addChannels, removeChannel, renameChannel, channelSelector,
+  addChannels, channelSelector,
 } from '../slices/channelSlice';
-import { addMessage, addMessages, messageSelector } from '../slices/messageSlice';
+import { addMessages, messageSelector } from '../slices/messageSlice';
 import ChatList from './ChatList.jsx';
 import MessageInput from './MessageInput.jsx';
 import Messages from './Messages.jsx';
@@ -55,22 +54,22 @@ const PrivatePage = () => {
     }
   }, []);
 
-  // подписываемся на события с сервера
-  useEffect(() => {
-    socket.on('newMessage', (payload) => {
-      dispatch(addMessage(payload));
-    });
-    socket.on('removeChannel', (payload) => {
-      dispatch(removeChannel(payload.id));
-    });
-    socket.on('newChannel', (payload) => {
-      dispatch(addChannel(payload));
-      setCurrentChat(payload);
-    });
-    socket.on('renameChannel', (payload) => {
-      dispatch(renameChannel({ id: payload.id, changes: payload }));
-    });
-  }, []);
+  // // подписываемся на события с сервера
+  // useEffect(() => {
+  //   socket.on('newMessage', (payload) => {
+  //     dispatch(addMessage(payload));
+  //   });
+  //   socket.on('removeChannel', (payload) => {
+  //     dispatch(removeChannel(payload.id));
+  //   });
+  //   socket.on('newChannel', (payload) => {
+  //     dispatch(addChannel(payload));
+  //     // setCurrentChat(payload);
+  //   });
+  //   socket.on('renameChannel', (payload) => {
+  //     dispatch(renameChannel({ id: payload.id, changes: payload }));
+  //   });
+  // }, []);
 
   const currentMessages = messages.filter((message) => message.channelId === currentChat.id);
 

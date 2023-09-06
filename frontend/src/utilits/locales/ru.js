@@ -52,6 +52,21 @@ const translation = {
       error: {
         network: 'Проблемы с сетью',
       },
+      modals: {
+        header: {
+          adding: 'Добавить канал',
+          removing: 'Удалить канал',
+          renaming: 'Переименовать канал',
+        },
+        errorUniqe: 'Должно быть уникальным',
+        question: 'Уверены?',
+        button: {
+          save: 'Сохранить',
+          cancel: 'Отменить',
+          remove: 'Удалить',
+          rename: 'Переименовать',
+        },
+      },
     },
   },
 };

@@ -26,14 +26,14 @@ const Remove = (props) => {
   return (
     <Modal show>
       <Modal.Header closeButton onHide={() => { dispatch(closeModal(modal)); }}>
-        <Modal.Title>Удалить канал</Modal.Title>
+        <Modal.Title>{t(modal.header.removing)}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        <p className="text-muted">Уверены?</p>
+        <p className="text-muted">{t(modal.question)}</p>
         <div className="d-flex flex-row-reverse mt-3 gap-2">
-          <Button variant="danger" type="submit" onClick={submitRemoval}>Удалить</Button>
-          <Button variant="secondary" onClick={() => { dispatch(closeModal(modal)); }}>Отменить</Button>
+          <Button variant="danger" type="submit" onClick={submitRemoval}>{t(modal.button.remove)}</Button>
+          <Button variant="secondary" onClick={() => { dispatch(closeModal(modal)); }}>{t(modal.button.cancel)}</Button>
         </div>
       </Modal.Body>
 

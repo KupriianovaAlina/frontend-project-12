@@ -53,18 +53,21 @@ const Add = () => {
   return (
     <Modal show>
       <Modal.Header closeButton onHide={() => { dispatch(closeModal(modal)); }}>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t(modal.header.adding)}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group>
             <Form.Control required ref={inputRef} onChange={formik.handleChange} value={formik.values.name} name="name" isInvalid={creationFailed} />
-            <Form.Control.Feedback type="invalid">Должно быть уникальным</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{t(modal.errorUnique)}</Form.Control.Feedback>
           </Form.Group>
           <div className="d-flex flex-row-reverse mt-3 gap-2">
-            <Button variant="primary" type="submit">Сохранить</Button>
-            <Button variant="secondary" onClick={() => { dispatch(closeModal(modal)); }}>Отменить</Button>
+            <Button variant="primary" type="submit">
+              {t(modal.button.save)}
+              <span className="visually-hidden">Имя канала</span>
+            </Button>
+            <Button variant="secondary" onClick={() => { dispatch(closeModal(modal)); }}>{t(modal.button.cancel)}</Button>
           </div>
         </Form>
       </Modal.Body>
