@@ -45,7 +45,7 @@ const translation = {
     },
     toasts: {
       success: {
-        newChanneladded: 'Канал успешно добавлен!',
+        newChanneladded: 'Канал создан',
         channelRenamed: 'Канал переименован',
         channelRemoved: 'Канал удалён',
       },
