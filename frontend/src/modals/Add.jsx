@@ -67,7 +67,7 @@ const Add = () => {
               {t('modal.button.save')}
               <span className="visually-hidden">Имя канала</span>
             </Button>
-            <Button variant="secondary" onClick={() => { dispatch(closeModal(modal)); }}>{t('modals.button.cancel')}</Button>
+            <Button variant="secondary" onClick={() => { dispatch(closeModal(modal)); }}>{t('modal.button.cancel')}</Button>
           </div>
         </Form>
       </Modal.Body>

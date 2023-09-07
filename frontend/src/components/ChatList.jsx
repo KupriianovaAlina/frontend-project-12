@@ -27,8 +27,7 @@ const ChatList = (props) => {
                 {channel.name}
               </button>
               {channel.removable && (
-                <DropdownButton as={ButtonGroup} id="bg-nested-dropdown" variant={variant} title="">
-                  <span className="visually-hidden">{"Управление каналом"}</span>
+                <DropdownButton as={ButtonGroup} id="bg-nested-dropdown" variant={variant} text="Управление каналом">
                   <Dropdown.Item
                     eventKey="1"
                     onClick={() => {
