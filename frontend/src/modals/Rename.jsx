@@ -57,11 +57,13 @@ const Rename = () => {
           <Form.Group>
             <Form.Control required ref={inputRef} onChange={formik.handleChange} value={formik.values.newName} name="newName" isInvalid={renamingFailed} />
             <Form.Control.Feedback type="invalid">{t('modal.errorUnique')}</Form.Control.Feedback>
-            <span className="visually-hidden">Имя канала</span>
           </Form.Group>
           <div className="d-flex flex-row-reverse mt-3 gap-2">
-            <Button variant="primary" type="submit">{t('modal.button.save')}</Button>
-            <Button variant="secondary" onClick={() => { dispatch(closeModal(modal)); }}>{t('modal.button.cancel')}</Button>
+            <Button variant="primary" type="submit">
+              {t('modal.button.save')}
+              <span className="visually-hidden">Имя канала</span>
+            </Button>
+            <Button variant="secondary" onClick={() => { dispatch(closeModal(modal)); }}>{t('modals.button.cancel')}</Button>
           </div>
         </Form>
       </Modal.Body>
