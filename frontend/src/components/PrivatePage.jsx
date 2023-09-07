@@ -54,23 +54,6 @@ const PrivatePage = () => {
     }
   }, []);
 
-  // // подписываемся на события с сервера
-  // useEffect(() => {
-  //   socket.on('newMessage', (payload) => {
-  //     dispatch(addMessage(payload));
-  //   });
-  //   socket.on('removeChannel', (payload) => {
-  //     dispatch(removeChannel(payload.id));
-  //   });
-  //   socket.on('newChannel', (payload) => {
-  //     dispatch(addChannel(payload));
-  //     // setCurrentChat(payload);
-  //   });
-  //   socket.on('renameChannel', (payload) => {
-  //     dispatch(renameChannel({ id: payload.id, changes: payload }));
-  //   });
-  // }, []);
-
   const currentMessages = messages.filter((message) => message.channelId === currentChat.id);
 
   return (

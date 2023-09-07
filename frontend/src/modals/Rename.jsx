@@ -49,19 +49,19 @@ const Rename = () => {
   return (
     <Modal show>
       <Modal.Header closeButton onHide={() => { dispatch(closeModal(modal)); }}>
-        <Modal.Title>{t(modal.header.renaming)}</Modal.Title>
+        <Modal.Title>{t('modal.header.renaming')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group>
             <Form.Control required ref={inputRef} onChange={formik.handleChange} value={formik.values.newName} name="newName" isInvalid={renamingFailed} />
-            <Form.Control.Feedback type="invalid">{t(modal.errorUnique)}</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{t('modal.errorUnique')}</Form.Control.Feedback>
             <span className="visually-hidden">Имя канала</span>
           </Form.Group>
           <div className="d-flex flex-row-reverse mt-3 gap-2">
-            <Button variant="primary" type="submit">{t(modal.button.save)}</Button>
-            <Button variant="secondary" onClick={() => { dispatch(closeModal(modal)); }}>{t(modal.button.cancel)}</Button>
+            <Button variant="primary" type="submit">{t('modal.button.save')}</Button>
+            <Button variant="secondary" onClick={() => { dispatch(closeModal(modal)); }}>{t('modal.button.cancel')}</Button>
           </div>
         </Form>
       </Modal.Body>
