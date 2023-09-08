@@ -1,4 +1,4 @@
-import { DropdownButton, Dropdown, ButtonGroup } from 'react-bootstrap';
+import { Dropdown, ButtonGroup } from 'react-bootstrap';
 import cn from 'classnames';
 import { useDispatch } from 'react-redux';
 import uuid from 'react-uuid';
@@ -28,11 +28,9 @@ const ChatList = (props) => {
               </button>
               {channel.removable && (
                 <Dropdown>
-
                   <Dropdown.Toggle className="border-0 rounded-0" variant={variant}>
                     <span className="visually-hidden">Управление каналом</span>
                   </Dropdown.Toggle>
-
                   <Dropdown.Menu>
                     <Dropdown.Item
                       eventKey="1"
@@ -53,14 +51,13 @@ const ChatList = (props) => {
                       <span className="visually-hidden">Переименовать</span>
                     </Dropdown.Item>
                   </Dropdown.Menu>
-
                 </Dropdown>
               )}
             </ButtonGroup>
           </li>
         );
       })}
-    </ul >
+    </ul>
   );
 };
 
