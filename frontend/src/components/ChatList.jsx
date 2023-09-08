@@ -27,32 +27,40 @@ const ChatList = (props) => {
                 {channel.name}
               </button>
               {channel.removable && (
-                <DropdownButton as={ButtonGroup} id="bg-nested-dropdown" variant={variant} text="Управление каналом">
-                  <Dropdown.Item
-                    eventKey="1"
-                    onClick={() => {
-                      dispatch(openModal({ type: 'removing', chatId: channel.id }));
-                    }}
-                  >
-                    {t('modal.button.remove')}
-                    <span className="visually-hidden">Удалить</span>
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    eventKey="2"
-                    onClick={() => {
-                      dispatch(openModal({ type: 'renaming', chatId: channel.id }));
-                    }}
-                  >
-                    {t('modal.button.rename')}
-                    <span className="visually-hidden">Переименовать</span>
-                  </Dropdown.Item>
-                </DropdownButton>
+                <Dropdown>
+
+                  <Dropdown.Toggle className="border-0 rounded-0" variant={variant}>
+                    <span className="visually-hidden">Управление каналом</span>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item
+                      eventKey="1"
+                      onClick={() => {
+                        dispatch(openModal({ type: 'removing', chatId: channel.id }));
+                      }}
+                    >
+                      {t('modal.button.remove')}
+                      <span className="visually-hidden">Удалить</span>
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      eventKey="2"
+                      onClick={() => {
+                        dispatch(openModal({ type: 'renaming', chatId: channel.id }));
+                      }}
+                    >
+                      {t('modal.button.rename')}
+                      <span className="visually-hidden">Переименовать</span>
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+
+                </Dropdown>
               )}
             </ButtonGroup>
           </li>
         );
       })}
-    </ul>
+    </ul >
   );
 };
 
