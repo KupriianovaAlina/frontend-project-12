@@ -54,7 +54,7 @@ const Rename = () => {
 
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <Form.Group>
+          <Form.Group controlId="newName">
             <Form.Label className="visually-hidden">Имя канала</Form.Label>
             <Form.Control required ref={inputRef} onChange={formik.handleChange} value={formik.values.newName} name="newName" isInvalid={renamingFailed} />
             <Form.Control.Feedback type="invalid">{t('modal.errorUnique')}</Form.Control.Feedback>

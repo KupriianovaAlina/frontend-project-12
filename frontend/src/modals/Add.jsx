@@ -59,7 +59,7 @@ const Add = () => {
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group>
-            <Form.Control required ref={inputRef} onChange={formik.handleChange} value={formik.values.name} name="name" isInvalid={creationFailed} />
+            <Form.Control ref={inputRef} onChange={formik.handleChange} value={formik.values.name} name="name" isInvalid={creationFailed} />
             <Form.Control.Feedback type="invalid">{t('modal.errorUnique')}</Form.Control.Feedback>
           </Form.Group>
           <div className="d-flex flex-row-reverse mt-3 gap-2">
