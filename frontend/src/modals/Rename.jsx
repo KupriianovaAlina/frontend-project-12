@@ -63,7 +63,7 @@ const Rename = () => {
             <Button variant="primary" type="submit">
               {t('modal.button.save')}
             </Button>
-            <Button variant="secondary" onClick={() => { dispatch(closeModal(modal)); }}>{t('modals.button.cancel')}</Button>
+            <Button variant="secondary" onClick={() => { dispatch(closeModal(modal)); }}>{t('modal.button.cancel')}</Button>
           </div>
         </Form>
       </Modal.Body>

@@ -11,12 +11,13 @@ import getModal from '../modals/index';
 import { AuthContext } from './AuthProvider';
 import { openModal } from '../slices/modalSlice';
 import {
-  addChannels, channelSelector,
+  addChannels, addChannel, channelSelector, removeChannel, renameChannel,
 } from '../slices/channelSlice';
-import { addMessages, messageSelector } from '../slices/messageSlice';
+import { addMessages, addMessage, messageSelector } from '../slices/messageSlice';
 import ChatList from './ChatList.jsx';
 import MessageInput from './MessageInput.jsx';
 import Messages from './Messages.jsx';
+import socket from '../utilits/socket';
 
 const getChatData = (token) => axios.get('/api/v1/data', { headers: { Authorization: `Bearer ${token}` } });
 
@@ -52,6 +53,23 @@ const PrivatePage = () => {
     } catch (err) {
       console.log(err);
     }
+  }, []);
+
+  // подписываемся на события с сервера
+  useEffect(() => {
+    socket.on('newMessage', (payload) => {
+      dispatch(addMessage(payload));
+    });
+    socket.on('removeChannel', (payload) => {
+      dispatch(removeChannel(payload.id));
+    });
+    socket.on('newChannel', (payload) => {
+      dispatch(addChannel(payload));
+      setCurrentChat(payload);
+    });
+    socket.on('renameChannel', (payload) => {
+      dispatch(renameChannel({ id: payload.id, changes: payload }));
+    });
   }, []);
 
   const currentMessages = messages.filter((message) => message.channelId === currentChat.id);

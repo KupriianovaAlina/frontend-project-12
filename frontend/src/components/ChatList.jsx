@@ -14,8 +14,12 @@ const ChatList = (props) => {
     <ul className="nav nav-pills list-group">
       {channels.map((channel) => {
         const btnClass = cn({
-          'rounded-0 text-start btn': true,
+          'rounded-0 text-start btn ': true,
           'btn-secondary': currentChat.id === channel.id,
+        });
+        const dropDownClass = cn({
+          'rounded-0': true,
+          'border-0': currentChat.id !== channel.id,
         });
         const variant = (currentChat.id === channel.id) ? 'secondary' : '';
 
@@ -28,7 +32,7 @@ const ChatList = (props) => {
               </button>
               {channel.removable && (
                 <Dropdown>
-                  <Dropdown.Toggle className="border-0 rounded-0" variant={variant}>
+                  <Dropdown.Toggle className={dropDownClass} variant={variant}>
                     <span className="visually-hidden">Управление каналом</span>
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
