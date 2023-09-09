@@ -70,7 +70,7 @@ const PrivatePage = () => {
     socket.on('renameChannel', (payload) => {
       dispatch(renameChannel({ id: payload.id, changes: payload }));
     });
-  }, []);
+  }, [dispatch]);
 
   const currentMessages = messages.filter((message) => message.channelId === currentChat.id);
 
