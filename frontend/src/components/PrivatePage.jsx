@@ -53,7 +53,7 @@ const PrivatePage = () => {
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [dispatch, auth]);
 
   // подписываемся на события с сервера
   useEffect(() => {
