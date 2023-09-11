@@ -17,8 +17,7 @@
 3. Запустите команду make start в корне проекта для сборки и запуска проекта
 
 > Вы также можете открыть это проект прямо в браузере:
-
-frontend-project-12-production-8e05.up.railway.app
+> frontend-project-12-production-8e05.up.railway.app
 
 ## Системные требования:
 Node.js 17+
