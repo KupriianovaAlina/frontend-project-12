@@ -22,7 +22,7 @@ const ChatList = (props) => {
               </Button>
               {
                 channel.removable
-                && <Dropdown.Toggle split variant={variant} id="dropdown-split-basic" text="Управление каналом" />
+                && <Dropdown.Toggle split variant={variant} id="dropdown-split-basic" text='"Управление каналом"' />
               }
               <Dropdown.Menu>
                 <Dropdown.Item
