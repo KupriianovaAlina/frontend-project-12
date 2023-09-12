@@ -14,36 +14,38 @@ const ChatList = (props) => {
       {channels.map((channel) => {
         const variant = (currentChat.id === channel.id) ? 'secondary' : 'light';
         return (
-          <Dropdown className="shadow-none" as={ButtonGroup} key={uuid()}>
-            <Button variant={variant} className="w-100 rounded-0 text-start btn text-truncate" onClick={() => setCurrentChat(channel)}>
-              <span className="me-1">#</span>
-              {channel.name}
-            </Button>
-            {
-              channel.removable
-              && <Dropdown.Toggle split variant={variant} id="dropdown-split-basic" />
-            }
-            <Dropdown.Menu>
-              <Dropdown.Item
-                eventKey="1"
-                onClick={() => {
-                  dispatch(openModal({ type: 'removing', chatId: channel.id }));
-                }}
-              >
-                {t('modal.button.remove')}
-                <span className="visually-hidden">Удалить</span>
-              </Dropdown.Item>
-              <Dropdown.Item
-                eventKey="2"
-                onClick={() => {
-                  dispatch(openModal({ type: 'renaming', chatId: channel.id }));
-                }}
-              >
-                {t('modal.button.rename')}
-                <span className="visually-hidden">Переименовать</span>
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          <li className="w-100" key={uuid()}>
+            <Dropdown className="shadow-none d-flex" as={ButtonGroup}>
+              <Button variant={variant} className="w-100 rounded-0 text-start btn text-truncate" onClick={() => setCurrentChat(channel)}>
+                <span className="me-1">#</span>
+                {channel.name}
+              </Button>
+              {
+                channel.removable
+                && <Dropdown.Toggle split variant={variant} id="dropdown-split-basic" text="Управление каналом" />
+              }
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  eventKey="1"
+                  onClick={() => {
+                    dispatch(openModal({ type: 'removing', chatId: channel.id }));
+                  }}
+                >
+                  {t('modal.button.remove')}
+                  <span className="visually-hidden">Удалить</span>
+                </Dropdown.Item>
+                <Dropdown.Item
+                  eventKey="2"
+                  onClick={() => {
+                    dispatch(openModal({ type: 'renaming', chatId: channel.id }));
+                  }}
+                >
+                  {t('modal.button.rename')}
+                  <span className="visually-hidden">Переименовать</span>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </li>
         );
       })}
     </ul>

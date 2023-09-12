@@ -91,7 +91,7 @@ const PrivatePage = () => {
         <Col className="h-100 p-0">
           <Stack className="h-100">
             <div className="bg-light mb-3 p-3 shadow-sm small">
-              <p>
+              <p className="mb-0">
                 <b>
                   #
                   {currentChat.name}
