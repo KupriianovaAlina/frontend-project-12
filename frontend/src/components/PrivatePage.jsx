@@ -37,7 +37,6 @@ const PrivatePage = () => {
   const [currentChat, setCurrentChat] = useState({});
   const { t } = useTranslation();
 
-  // изначальная загрузка каналов
   useEffect(() => {
     inputRef.current.focus();
     const uploadInitialData = async () => {
@@ -55,7 +54,6 @@ const PrivatePage = () => {
     }
   }, [dispatch, auth]);
 
-  // подписываемся на события с сервера
   useEffect(() => {
     socket.on('newMessage', (payload) => {
       dispatch(addMessage(payload));
@@ -65,7 +63,7 @@ const PrivatePage = () => {
     });
     socket.on('newChannel', (payload) => {
       dispatch(addChannel(payload));
-      setCurrentChat(payload);
+      if (payload.removable) { setCurrentChat(payload); }
     });
     socket.on('renameChannel', (payload) => {
       dispatch(renameChannel({ id: payload.id, changes: payload }));
@@ -75,9 +73,9 @@ const PrivatePage = () => {
   const currentMessages = messages.filter((message) => message.channelId === currentChat.id);
 
   return (
-    <Container>
-      <Row>
-        <Col xs lg="3">
+    <Container className="container h-100 my-4 overflow-hidden rounded shadow">
+      <Row className="h-100">
+        <Col className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
           <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
             <b>{t('privatePage.channels')}</b>
             <button type="button" onClick={() => { dispatch(openModal({ type: 'adding' })); }} className="p-0 text-primary btn btn-group-vertical">
@@ -90,8 +88,8 @@ const PrivatePage = () => {
           </div>
           <ChatList channels={channels} setCurrentChat={setCurrentChat} currentChat={currentChat} />
         </Col>
-        <Col>
-          <Stack>
+        <Col className="h-100 p-0">
+          <Stack className="h-100">
             <div className="bg-light mb-3 p-3 shadow-sm small">
               <p>
                 <b>

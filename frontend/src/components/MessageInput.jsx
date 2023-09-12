@@ -17,6 +17,7 @@ const MessageInput = (props) => {
     },
     onSubmit: ({ newMessage }) => {
       buttonRef.current.style.disabled = true;
+      if (newMessage === '' || newMessage.trim() === '') return;
       try {
         const body = filter.clean(newMessage);
         socket.emit('newMessage', { body, channelId: currentChat.id, username }, () => {

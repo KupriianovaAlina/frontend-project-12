@@ -36,14 +36,14 @@ const SignupPage = () => {
     onSubmit: async ({ username, password }) => {
       try {
         const res = await axios.post('/api/v1/signup', { username, password });
-        if (res.response.code === 409) {
-          formik.errors.username = t('validationErrors.alreadyExist');
-          return;
-        }
         auth.logIn(res.data.token, username);
         navigate('/');
       } catch (err) {
-        console.log(err);
+        if (err.response.status === 409) {
+          formik.errors.username = t('validationErrors.alreadyExist');
+        } else {
+          formik.errors.username = t('error.network');
+        }
       }
     },
   });

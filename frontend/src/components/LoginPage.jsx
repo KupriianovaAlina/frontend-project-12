@@ -30,7 +30,11 @@ const Login = () => {
       try {
         const res = await axios.post('/api/v1/login', { username, password });
         auth.logIn(res.data.token, username);
-        if (location) { navigate(location.state.from.pathname); } else { navigate('/'); }
+        if (location) {
+          navigate(location.state.from.pathname);
+        } else {
+          navigate('/');
+        }
       } catch (err) {
         formik.setSubmitting(false);
         if (err.isAxiosError && err.response.status === 401) {
