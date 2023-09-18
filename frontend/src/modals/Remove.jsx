@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { closeModal } from '../slices/modalSlice';
-import socket from '../utilits/socket.js';
+import socket from '../socket.js';
 
 const Remove = (props) => {
   const { setCurrentChat, channels } = props;
@@ -13,14 +13,15 @@ const Remove = (props) => {
   const { t } = useTranslation();
 
   const submitRemoval = () => {
-    try {
-      socket.emit('removeChannel', { id: modal.chatId });
+    socket.emit('removeChannel', { id: modal.chatId }, (response) => {
+      if (response.status !== 'ok') {
+        toast.error(t('toasts.error.network'));
+        return;
+      }
       setCurrentChat(channels[0]);
       toast.success(t('toasts.success.channelRemoved'));
       dispatch(closeModal(modal));
-    } catch (err) {
-      toast.error(t('toasts.error.network'));
-    }
+    });
   };
 
   return (

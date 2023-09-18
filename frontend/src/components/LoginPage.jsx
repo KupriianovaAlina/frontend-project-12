@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { useRef, useEffect, useContext } from 'react';
 import { AuthContext } from './AuthProvider';
+import { apiRoutes } from '../routes';
 
 const Login = () => {
   const inputRef = useRef();
@@ -28,7 +29,7 @@ const Login = () => {
     }),
     onSubmit: async ({ username, password }) => {
       try {
-        const res = await axios.post('/api/v1/login', { username, password });
+        const res = await axios.post(apiRoutes.login(), { username, password });
         auth.logIn(res.data.token, username);
         if (location) {
           navigate(location.state.from.pathname);

@@ -2,7 +2,7 @@ import { Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useRef } from 'react';
 import filter from 'leo-profanity';
-import socket from '../utilits/socket';
+import socket from '../socket';
 import i18next from '../utilits/i18n';
 
 const MessageInput = (props) => {

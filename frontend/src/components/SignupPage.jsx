@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from './AuthProvider';
+import { apiRoutes } from '../routes';
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const SignupPage = () => {
     }),
     onSubmit: async ({ username, password }) => {
       try {
-        const res = await axios.post('/api/v1/signup', { username, password });
+        const res = await axios.post(apiRoutes.signup(), { username, password });
         auth.logIn(res.data.token, username);
         navigate('/');
       } catch (err) {

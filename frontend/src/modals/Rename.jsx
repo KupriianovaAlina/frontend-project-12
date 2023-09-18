@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { closeModal } from '../slices/modalSlice';
 import { channelSelector } from '../slices/channelSlice';
-import socket from '../utilits/socket.js';
+import socket from '../socket.js';
 
 const Rename = () => {
   const dispatch = useDispatch();

@@ -1,15 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
+import * as yup from 'yup';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { closeModal } from '../slices/modalSlice';
 import { channelSelector } from '../slices/channelSlice';
-import socket from '../utilits/socket.js';
+import socket from '../socket.js';
 
-const Add = () => {
-  const [creationFailed, setCreationFailed] = useState(false);
+const Add = (props) => {
+  const { setCurrentChat } = props;
   const channels = useSelector(channelSelector.selectAll);
   const modal = useSelector((state) => state.modal);
   const dispatch = useDispatch();
@@ -17,33 +18,27 @@ const Add = () => {
   const inputRef = useRef();
 
   const formik = useFormik({
-    onSubmit: () => {
-      if (channels.some((channel) => channel.name === formik.values.name)) {
-        setCreationFailed(true);
-        return;
-      }
-      try {
-        inputRef.current.disabled = true;
-        setCreationFailed(false);
-        socket.emit('newChannel', { name: formik.values.name });
-        formik.values.name = '';
-        toast.success(t('toasts.success.newChanneladded'));
-        dispatch(closeModal(modal));
-      } catch (err) {
-        formik.setSubmitting(false);
-        if (err.isAxiosError && err.response.status === 401) {
-          setCreationFailed(true);
+    initialValues: { name: '' },
+    validationSchema: yup.object({
+      name: yup
+        .string()
+        .required(t('validationErrors.required'))
+        .min(3, t('validationErrors.userLength'))
+        .max(20, t('validationErrors.userLength'))
+        .matches(/[^\s*].*[^\s*]/g, t('modal.errorNotOnlySpaces'))
+        .notOneOf(channels.map((channel) => channel.name), t('modal.errorUnique')),
+    }),
+    onSubmit: ({ name }) => {
+      socket.emit('newChannel', { name: name.trim() }, (response) => {
+        if (response.status !== 'ok') {
           toast.error(t('toasts.error.network'));
-          inputRef.current.select();
           return;
         }
-        throw err;
-      } finally {
-        inputRef.current.disabled = false;
-      }
+        toast.success(t('toasts.success.newChanneladded'));
+        setCurrentChat(response.data);
+        dispatch(closeModal(modal));
+      });
     },
-    initialValues:
-      { name: '' },
   });
 
   useEffect(() => {
@@ -56,13 +51,23 @@ const Add = () => {
         <Modal.Title>{t('modal.header.adding')}</Modal.Title>
       </Modal.Header>
 
-      <Modal.Body>
+      <Modal.Body className="pb-0">
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group>
-            <Form.Control ref={inputRef} onChange={formik.handleChange} value={formik.values.name} name="name" isInvalid={creationFailed} />
-            <Form.Control.Feedback type="invalid">{t('modal.errorUnique')}</Form.Control.Feedback>
+            <Form.Control
+              ref={inputRef}
+              onChange={formik.handleChange}
+              value={formik.values.name}
+              id="name"
+              name="name"
+              type="text"
+              isInvalid={formik.touched.name && formik.errors.name}
+              onBlur={formik.handleBlur}
+            />
+            <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
           </Form.Group>
-          <div className="d-flex flex-row-reverse mt-3 gap-2">
+
+          <div className="d-flex flex-row-reverse m-3 mr-0 gap-2">
             <Button variant="primary" type="submit">
               {t('modal.button.save')}
               <span className="visually-hidden">Имя канала</span>
@@ -71,7 +76,6 @@ const Add = () => {
           </div>
         </Form>
       </Modal.Body>
-
     </Modal>
   );
 };

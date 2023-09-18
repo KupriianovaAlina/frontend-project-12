@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import uuid from 'react-uuid';
@@ -8,13 +9,18 @@ const ChatList = (props) => {
   const { channels, setCurrentChat, currentChat } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const containerRef = useRef();
+
+  useEffect(() => {
+    containerRef.current.lastChild?.scrollIntoView(false);
+  }, [channels]);
 
   return (
-    <ul className="nav flex-column px-2 overflow-auto h-100">
+    <ul className="flex-column px-2 overflow-auto h-100" ref={containerRef}>
       {channels.map((channel) => {
         const variant = (currentChat.id === channel.id) ? 'secondary' : 'light';
         return (
-          <li className="w-100" key={uuid()}>
+          <li className="w-100 text-break" key={uuid()}>
             <Dropdown className="shadow-none d-flex" as={ButtonGroup}>
               <Button variant={variant} className="w-100 rounded-0 text-start btn text-truncate" onClick={() => setCurrentChat(channel)}>
                 <span className="me-1">#</span>

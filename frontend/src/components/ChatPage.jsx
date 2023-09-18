@@ -3,10 +3,12 @@ import { useTranslation } from 'react-i18next';
 import {
   useEffect, useRef, useState, useContext,
 } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Container, Col, Stack, Row,
 } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import getModal from '../modals/index';
 import { AuthContext } from './AuthProvider';
 import { openModal } from '../slices/modalSlice';
@@ -17,9 +19,10 @@ import { addMessages, addMessage, messageSelector } from '../slices/messageSlice
 import ChatList from './ChatList.jsx';
 import MessageInput from './MessageInput.jsx';
 import Messages from './Messages.jsx';
-import socket from '../utilits/socket';
+import socket from '../socket';
+import { apiRoutes } from '../routes';
 
-const getChatData = (token) => axios.get('/api/v1/data', { headers: { Authorization: `Bearer ${token}` } });
+const getChatData = (token) => axios.get(apiRoutes.data(), { headers: { Authorization: `Bearer ${token}` } });
 
 const renderModal = (modal, setCurrentChat, channels) => {
   if (!modal.type) return null;
@@ -27,12 +30,13 @@ const renderModal = (modal, setCurrentChat, channels) => {
   return <Component setCurrentChat={setCurrentChat} channels={channels} />;
 };
 
-const PrivatePage = () => {
+const ChatPage = () => {
   const auth = useContext(AuthContext);
   const messages = useSelector(messageSelector.selectAll);
   const channels = useSelector(channelSelector.selectAll);
   const modal = useSelector((state) => state.modal);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const inputRef = useRef();
   const [currentChat, setCurrentChat] = useState({});
   const { t } = useTranslation();
@@ -40,9 +44,14 @@ const PrivatePage = () => {
   useEffect(() => {
     inputRef.current.focus();
     const uploadInitialData = async () => {
-      const { data } = await getChatData(auth.getToken());
+      const { data, status } = await getChatData(auth.getToken());
       dispatch(addChannels(data.channels));
       dispatch(addMessages(data.messages));
+      if (status === 401) {
+        toast.warning(t('toasts.error.network'));
+        auth.logOut();
+        navigate('/login');
+      }
       // eslint-disable-next-line no-shadow
       const [currentChat] = data.channels.filter((chat) => chat.id === data.currentChannelId);
       setCurrentChat(currentChat);
@@ -52,7 +61,7 @@ const PrivatePage = () => {
     } catch (err) {
       console.log(err);
     }
-  }, [dispatch, auth]);
+  }, [dispatch, auth, navigate, t]);
 
   useEffect(() => {
     socket.on('newMessage', (payload) => {
@@ -63,7 +72,6 @@ const PrivatePage = () => {
     });
     socket.on('newChannel', (payload) => {
       dispatch(addChannel(payload));
-      if (payload.removable) { setCurrentChat(payload); }
     });
     socket.on('renameChannel', (payload) => {
       dispatch(renameChannel({ id: payload.id, changes: payload }));
@@ -109,4 +117,4 @@ const PrivatePage = () => {
   );
 };
 
-export default PrivatePage;
+export default ChatPage;

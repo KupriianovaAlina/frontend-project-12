@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import store from './slices/index.js';
-import PrivatePage from './components/PrivatePage';
+import ChatPage from './components/ChatPage';
 import LoginPage from './components/LoginPage';
 import SignupPage from './components/SignupPage';
 import NotFound from './components/NotFound';
@@ -12,6 +12,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Header from './components/Header';
 import 'react-toastify/dist/ReactToastify.css';
 import rollbarConfig from './utilits/rollbarConfig.js';
+import { navigationRoutes } from './routes.js';
 
 const App = () => (
   <RollbarProvider config={rollbarConfig}>
@@ -23,15 +24,15 @@ const App = () => (
             <ToastContainer />
             <Routes>
               <Route
-                path="/"
+                path={navigationRoutes.chat()}
                 element={(
                   <PrivateRoute>
-                    <PrivatePage />
+                    <ChatPage />
                   </PrivateRoute>
                 )}
               />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignupPage />} />
+              <Route path={navigationRoutes.login()} element={<LoginPage />} />
+              <Route path={navigationRoutes.signup()} element={<SignupPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

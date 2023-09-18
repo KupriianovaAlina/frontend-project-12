@@ -59,7 +59,8 @@ const translation = {
         removing: 'Удалить канал',
         renaming: 'Переименовать канал',
       },
-      errorUniqe: 'Должно быть уникальным',
+      errorUnique: 'Должно быть уникальным',
+      errorNotOnlySpaces: 'Должно содержать не только пробелы',
       question: 'Уверены?',
       button: {
         save: 'Сохранить',
