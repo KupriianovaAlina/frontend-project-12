@@ -1,6 +1,6 @@
 const rollbarConfig = {
-  accessToken: 'ddaae6b2c7e74db09c99ed6cf78bbf2c',
-  environment: 'testenv',
+  enabled: process.env.NODE_ENV === 'production',
+  accessToken: process.env.ROLLBAR_TOKEN,
 };
 
 export default rollbarConfig;
