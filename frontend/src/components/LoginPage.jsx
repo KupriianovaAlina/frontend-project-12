@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { useRef, useEffect, useContext } from 'react';
 import { AuthContext } from './AuthProvider';
-import { apiRoutes } from '../routes';
+import { apiRoutes, navigationRoutes } from '../routes';
 
 const Login = () => {
   const inputRef = useRef();
@@ -34,7 +34,7 @@ const Login = () => {
         if (location) {
           navigate(location.state.from.pathname);
         } else {
-          navigate('/');
+          navigate(navigationRoutes.chat());
         }
       } catch (err) {
         formik.setSubmitting(false);

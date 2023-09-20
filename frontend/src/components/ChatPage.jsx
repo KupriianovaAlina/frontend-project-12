@@ -20,7 +20,7 @@ import ChatList from './ChatList.jsx';
 import MessageInput from './MessageInput.jsx';
 import Messages from './Messages.jsx';
 import socket from '../socket';
-import { apiRoutes } from '../routes';
+import { apiRoutes, navigationRoutes } from '../routes';
 
 const getChatData = (token) => axios.get(apiRoutes.data(), { headers: { Authorization: `Bearer ${token}` } });
 
@@ -50,7 +50,7 @@ const ChatPage = () => {
       if (status === 401) {
         toast.warning(t('toasts.error.network'));
         auth.logOut();
-        navigate('/login');
+        navigate(navigationRoutes.login());
       }
       // eslint-disable-next-line no-shadow
       const [currentChat] = data.channels.filter((chat) => chat.id === data.currentChannelId);

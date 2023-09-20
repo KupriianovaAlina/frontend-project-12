@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from './AuthProvider';
-import { apiRoutes } from '../routes';
+import { apiRoutes, navigationRoutes } from '../routes';
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const SignupPage = () => {
       try {
         const res = await axios.post(apiRoutes.signup(), { username, password });
         auth.logIn(res.data.token, username);
-        navigate('/');
+        navigate(navigationRoutes.chat());
       } catch (err) {
         if (err.response.status === 409) {
           formik.errors.username = t('validationErrors.alreadyExist');
