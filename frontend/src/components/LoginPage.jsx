@@ -38,13 +38,11 @@ const Login = () => {
         }
       } catch (err) {
         formik.setSubmitting(false);
-        if (err.isAxiosError && err.response.status === 401) {
+        if (err.isAxiosError && err.response.status !== 'ok') {
           inputRef.current.select();
           formik.errors.username = ' ';
           formik.errors.password = t('validationErrors.submissionFailed');
-          return;
         }
-        throw err;
       }
     },
   });
@@ -106,7 +104,7 @@ const Login = () => {
               <div className="text-center">
                 <span>{t('footer.question')}</span>
                 {' '}
-                <Link to="/signup">{t('footer.link')}</Link>
+                <Link to={navigationRoutes.signup()}>{t('footer.link')}</Link>
               </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import {
-  useEffect, useRef, useState, useContext,
+  useEffect, useRef, useContext,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,14 +9,14 @@ import {
   Container, Col, Stack, Row,
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import getModal from '../modals/index';
+import Modal from '../modals/Modal';
 import { AuthContext } from './AuthProvider';
 import { openModal } from '../slices/modalSlice';
 import {
-  addChannels, addChannel, channelSelector, removeChannel, renameChannel,
+  addChannels, addChannel, removeChannel, renameChannel, setCurrentChannel,
 } from '../slices/channelSlice';
 import { addMessages, addMessage, messageSelector } from '../slices/messageSlice';
-import ChatList from './ChatList.jsx';
+import ChannelsList from './ChannelsList.jsx';
 import MessageInput from './MessageInput.jsx';
 import Messages from './Messages.jsx';
 import socket from '../socket';
@@ -24,37 +24,33 @@ import { apiRoutes, navigationRoutes } from '../routes';
 
 const getChatData = (token) => axios.get(apiRoutes.data(), { headers: { Authorization: `Bearer ${token}` } });
 
-const renderModal = (modal, setCurrentChat, channels) => {
-  if (!modal.type) return null;
-  const Component = getModal(modal.type);
-  return <Component setCurrentChat={setCurrentChat} channels={channels} />;
-};
-
 const ChatPage = () => {
   const auth = useContext(AuthContext);
   const messages = useSelector(messageSelector.selectAll);
-  const channels = useSelector(channelSelector.selectAll);
-  const modal = useSelector((state) => state.modal);
+  const currentChannel = useSelector((state) => state.channels.currentChannel);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const inputRef = useRef();
-  const [currentChat, setCurrentChat] = useState({});
   const { t } = useTranslation();
+  const currentMessages = messages.filter((message) => message.channelId === currentChannel.id);
 
   useEffect(() => {
     inputRef.current.focus();
+
     const uploadInitialData = async () => {
       const { data, status } = await getChatData(auth.getToken());
-      dispatch(addChannels(data.channels));
-      dispatch(addMessages(data.messages));
+
       if (status === 401) {
         toast.warning(t('toasts.error.network'));
         auth.logOut();
         navigate(navigationRoutes.login());
       }
-      // eslint-disable-next-line no-shadow
-      const [currentChat] = data.channels.filter((chat) => chat.id === data.currentChannelId);
-      setCurrentChat(currentChat);
+
+      dispatch(addChannels(data.channels));
+      dispatch(addMessages(data.messages));
+      const [initialCurrentChannel] = data.channels
+        .filter((channel) => channel.id === data.currentChannelId);
+      dispatch(setCurrentChannel(initialCurrentChannel));
     };
     try {
       uploadInitialData();
@@ -78,8 +74,6 @@ const ChatPage = () => {
     });
   }, [dispatch]);
 
-  const currentMessages = messages.filter((message) => message.channelId === currentChat.id);
-
   return (
     <Container className="container h-100 my-4 overflow-hidden rounded shadow">
       <Row className="h-100">
@@ -94,7 +88,7 @@ const ChatPage = () => {
               <span className="visually-hidden">+</span>
             </button>
           </div>
-          <ChatList channels={channels} setCurrentChat={setCurrentChat} currentChat={currentChat} />
+          <ChannelsList />
         </Col>
         <Col className="h-100 p-0">
           <Stack className="h-100">
@@ -102,17 +96,17 @@ const ChatPage = () => {
               <p className="mb-0">
                 <b>
                   #
-                  {currentChat.name}
+                  {currentChannel.name}
                 </b>
               </p>
               <span className="text-muted">{t('privatePage.messager.message', { count: currentMessages.length })}</span>
             </div>
             <Messages currentMessages={currentMessages} />
-            <MessageInput inputRef={inputRef} currentChat={currentChat} />
+            <MessageInput inputRef={inputRef} currentChannel={currentChannel} />
           </Stack>
         </Col>
       </Row>
-      {renderModal(modal, setCurrentChat, channels)}
+      <Modal />
     </Container>
   );
 };

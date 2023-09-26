@@ -6,11 +6,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { closeModal } from '../slices/modalSlice';
-import { channelSelector } from '../slices/channelSlice';
+import { channelSelector, setCurrentChannel } from '../slices/channelSlice';
 import socket from '../socket.js';
 
-const Add = (props) => {
-  const { setCurrentChat } = props;
+const regexNotOnlySpaces = /[^\s*].*[^\s*]/g;
+
+const Add = () => {
   const channels = useSelector(channelSelector.selectAll);
   const modal = useSelector((state) => state.modal);
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const Add = (props) => {
         .required(t('validationErrors.required'))
         .min(3, t('validationErrors.userLength'))
         .max(20, t('validationErrors.userLength'))
-        .matches(/[^\s*].*[^\s*]/g, t('modal.errorNotOnlySpaces'))
+        .matches(regexNotOnlySpaces, t('modal.errorNotOnlySpaces'))
         .notOneOf(channels.map((channel) => channel.name), t('modal.errorUnique')),
     }),
     onSubmit: ({ name }) => {
@@ -35,7 +36,7 @@ const Add = (props) => {
           return;
         }
         toast.success(t('toasts.success.newChanneladded'));
-        setCurrentChat(response.data);
+        dispatch(setCurrentChannel(response.data));
         dispatch(closeModal(modal));
       });
     },
@@ -67,10 +68,10 @@ const Add = (props) => {
             <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
           </Form.Group>
 
-          <div className="d-flex flex-row-reverse m-3 mr-0 gap-2">
+          <div className="d-flex flex-row-reverse m-3 me-0 gap-2">
             <Button variant="primary" type="submit">
               {t('modal.button.save')}
-              <span className="visually-hidden">Имя канала</span>
+              <span className="visually-hidden">{t('modal.channelName')}</span>
             </Button>
             <Button variant="secondary" onClick={() => { dispatch(closeModal(modal)); }}>{t('modal.button.cancel')}</Button>
           </div>

@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -8,11 +9,12 @@ import { closeModal } from '../slices/modalSlice';
 import { channelSelector } from '../slices/channelSlice';
 import socket from '../socket.js';
 
+const regexNotOnlySpaces = /[^\s*].*[^\s*]/g;
+
 const Rename = () => {
   const dispatch = useDispatch();
   const modal = useSelector((state) => state.modal);
   const channels = useSelector(channelSelector.selectAll);
-  const [renamingFailed, setRenamingFailed] = useState(false);
   const { t } = useTranslation();
 
   const inputRef = useRef();
@@ -21,29 +23,26 @@ const Rename = () => {
   }, []);
 
   const formik = useFormik({
-    onSubmit: () => {
-      if (channels.some((channel) => channel.name === formik.values.newName)) {
-        setRenamingFailed(true);
-        return;
-      }
-
-      try {
-        setRenamingFailed(false);
-        socket.emit('renameChannel', { id: modal.chatId, name: formik.values.newName });
-        toast.success(t('toasts.success.channelRenamed'));
-        dispatch(closeModal(modal));
-      } catch (err) {
-        formik.setSubmitting(false);
-        if (err.isAxiosError && err.response.status === 401) {
+    initialValues: { name: channels.find((channel) => channel.id === modal.channelId).name },
+    validationSchema: yup.object({
+      name: yup
+        .string()
+        .required(t('validationErrors.required'))
+        .min(3, t('validationErrors.userLength'))
+        .max(20, t('validationErrors.userLength'))
+        .matches(regexNotOnlySpaces, t('modal.errorNotOnlySpaces'))
+        .notOneOf(channels.map((channel) => channel.name), t('modal.errorUnique')),
+    }),
+    onSubmit: ({ name }) => {
+      socket.emit('renameChannel', { id: modal.channelId, name: name.trim() }, (response) => {
+        if (response.status !== 'ok') {
           toast.error(t('toasts.error.network'));
-          setRenamingFailed(true);
-          inputRef.current.select();
           return;
         }
-        throw err;
-      }
+        toast.success(t('toasts.success.channelRenamed'));
+        dispatch(closeModal(modal));
+      });
     },
-    initialValues: { newName: channels.find((channel) => channel.id === modal.chatId).name },
   });
 
   return (
@@ -54,16 +53,29 @@ const Rename = () => {
 
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <Form.Group controlId="newName">
-            <Form.Label className="visually-hidden">Имя канала</Form.Label>
-            <Form.Control required ref={inputRef} onChange={formik.handleChange} value={formik.values.newName} name="newName" isInvalid={renamingFailed} />
-            <Form.Control.Feedback type="invalid">{t('modal.errorUnique')}</Form.Control.Feedback>
+          <Form.Group controlId="name">
+            <Form.Label className="visually-hidden">{t('modal.channelName')}</Form.Label>
+            <Form.Control
+              ref={inputRef}
+              onChange={formik.handleChange}
+              value={formik.values.name}
+              name="name"
+              isInvalid={formik.touched.name && formik.errors.name}
+            />
+            <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
           </Form.Group>
           <div className="d-flex flex-row-reverse mt-3 gap-2">
             <Button variant="primary" type="submit">
               {t('modal.button.save')}
             </Button>
-            <Button variant="secondary" onClick={() => { dispatch(closeModal(modal)); }}>{t('modal.button.cancel')}</Button>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                dispatch(closeModal(modal));
+              }}
+            >
+              {t('modal.button.cancel')}
+            </Button>
           </div>
         </Form>
       </Modal.Body>

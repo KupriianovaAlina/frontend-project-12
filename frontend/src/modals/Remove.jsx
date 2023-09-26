@@ -4,21 +4,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { closeModal } from '../slices/modalSlice';
+import { channelSelector, setCurrentChannel } from '../slices/channelSlice';
 import socket from '../socket.js';
 
-const Remove = (props) => {
-  const { setCurrentChat, channels } = props;
+const Remove = () => {
   const dispatch = useDispatch();
+  const channels = useSelector(channelSelector.selectAll);
+  const currentChannel = useSelector((state) => state.channels.currentChannel);
   const modal = useSelector((state) => state.modal);
   const { t } = useTranslation();
 
   const submitRemoval = () => {
-    socket.emit('removeChannel', { id: modal.chatId }, (response) => {
+    socket.emit('removeChannel', { id: modal.channelId }, (response) => {
       if (response.status !== 'ok') {
         toast.error(t('toasts.error.network'));
         return;
       }
-      setCurrentChat(channels[0]);
+      if (currentChannel.id === modal.channelId) dispatch(setCurrentChannel(channels[0]));
       toast.success(t('toasts.success.channelRemoved'));
       dispatch(closeModal(modal));
     });

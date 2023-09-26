@@ -2,11 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const modalSlice = createSlice({
   name: 'modal',
-  initialState: { type: null, chatId: null },
+  initialState: { type: null, channelId: null },
   reducers: {
     openModal:
-      (state, action) => ({ type: action.payload.type, chatId: action.payload.chatId || null }),
-    closeModal: () => ({ type: null, chatId: null }),
+      (_, action) => (
+        { type: action.payload.type, channelId: action.payload.channelId || null }
+      ),
+    closeModal: () => ({ type: null, channelId: null }),
   },
 });
 

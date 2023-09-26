@@ -5,6 +5,11 @@ const translation = {
       logIn: 'Войти',
       logOut: 'Выйти',
     },
+    notFoundPage: {
+      header: 'Error 404',
+      error: 'Not Found',
+      text: 'Упс, что-то пошло не так',
+    },
     privatePage: {
       channels: 'Каналы',
       messager: {
@@ -53,6 +58,7 @@ const translation = {
         network: 'Проблемы с сетью',
       },
     },
+    send: 'Отправить',
     modal: {
       header: {
         adding: 'Добавить канал',
@@ -62,6 +68,8 @@ const translation = {
       errorUnique: 'Должно быть уникальным',
       errorNotOnlySpaces: 'Должно содержать не только пробелы',
       question: 'Уверены?',
+      channelName: 'Имя канала',
+      channelSettings: 'Управление каналом',
       button: {
         save: 'Сохранить',
         cancel: 'Отменить',

@@ -5,6 +5,7 @@ export const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
   const getToken = () => localStorage.getItem('token');
+  const getUsername = () => localStorage.getItem('username');
 
   const [isAuthtoraized, setAuth] = useState(Boolean(getToken()));
 
@@ -23,7 +24,7 @@ const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={
       {
-        isAuthtoraized, logIn, logOut, getToken,
+        isAuthtoraized, logIn, logOut, getToken, getUsername,
       }
     }
     >

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { AuthContext } from './AuthProvider.jsx';
 import AuthButton from './AuthButton.jsx';
+import { navigationRoutes } from '../routes';
 
 const Header = () => {
   const auth = useContext(AuthContext);
@@ -12,7 +13,7 @@ const Header = () => {
   return (
     <Navbar bg="white" expand="lg" className="shadow-sm">
       <div className="container">
-        <Navbar.Brand as={Link} to="/">{t('header')}</Navbar.Brand>
+        <Navbar.Brand as={Link} to={navigationRoutes.chat()}>{t('header')}</Navbar.Brand>
         {auth.isAuthtoraized && <AuthButton />}
       </div>
     </Navbar>
