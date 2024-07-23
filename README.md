@@ -1,5 +1,8 @@
 [![Actions Status](https://github.com/KupriianovaAlina/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/KupriianovaAlina/frontend-project-12/actions)
 
+> Вы можете открыть это проект прямо в браузере (ВОСПОЛЬЗУЙТЕСЬ ЛОГИНОМ И ПАРОЛЕМ admin):
+> https://frontend-project-12-beige.vercel.app
+
 # Проект Чат (Slack)
 ## Описание проекта:
 Данное SPA-приложение представляет собой упрощенную версию Slack, где пользователи могут регистрироваться, логиниться, создавать каналы, оставлять сообщения
@@ -15,9 +18,6 @@
 1. Скопируйте репозиторий к себе на устройство
 2. Запустите команду npm ci в корне проекта для установки необходимых зависимостей
 3. Запустите команду make start в корне проекта для сборки и запуска проекта
-
-> Вы также можете открыть это проект прямо в браузере (ВОСПОЛЬЗУЙТЕСЬ ЛОГИНОМ И ПАРОЛЕМ admin):
-> frontend-project-12-production-8e05.up.railway.app
 
 ## Системные требования:
 Node.js 17+
